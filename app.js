@@ -6,14 +6,22 @@ window.addEventListener('load', ()=> {
 	let locationTimezone = document.querySelector('.location-timezone');
 	let locationIcon = document.querySelector('.weather-icon');
 	const temperatureSection = document.querySelector('.temperature');
+	const location = document.querySelector('.location');
 	const temperatureSpan = document.querySelector('.temperature span');
+	let alert = document.querySelector('.alert');
+	let alertContent = document.querySelector('.alert h2');
 
-	if (navigator.geolocation){
+	if (!navigator.geolocation){
+		alert.classList.add('active');
+		temperatureSection.classList.add('d-none');
+		location.classList.add('d-none');
+		alertContent.textContent = 'Ваш браузер не поддерживает использование геопозиции!';
+	} else {
 		navigator.geolocation.getCurrentPosition(position => {
 			long = position.coords.longitude;
 			lat = position.coords.latitude;
 
-			const proxy = `https://cors-anywhere.herokuapp.com/`;
+			// const proxy = `https://cors-anywhere.herokuapp.com/`;
 			const api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&lang=ru&appid=7a5f89690d236203076eaad7827333af`;
 		
 			fetch(api)
@@ -45,9 +53,15 @@ window.addEventListener('load', ()=> {
 				});
 			});
 		
+		},
+		function (error) {
+			if (error.code == error.PERMISSION_DENIED) {
+				alert.classList.add('active');
+				temperatureSection.classList.add('d-none');
+				location.classList.add('d-none');
+				alertContent.textContent = 'Ошибка. Вы не дали разрешение на использование геопозиции в браузере!';
+			}
 		});
-	} else {
-		h1.textContent = "Хэй, это не будет работать без разрешение на показ геопозиции для браузера";
 	}
 
 });
