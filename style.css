@@ -49,3 +49,31 @@ body {
 	height: auto;
 	object-fit: contain;
 }
+
+.alert {
+	position: absolute;
+	z-index: 4;
+	width: 100vw;
+	max-width: 700px;
+	height: 35vh;
+	background: white;
+	color: #222;
+	border-radius: 10px;
+	display: none;
+}
+
+.alert h2 {
+	color: #222;
+	font-size: 30px;
+}
+
+.active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.d-none {
+	display: none;
+}
